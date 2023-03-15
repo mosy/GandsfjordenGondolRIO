@@ -1,0 +1,4 @@
+(fp_lib_table
+  (lib (name "Devkit V1-1")(type "KiCad")(uri "/home/fred-olav/esp32projects/Gand-RIO-Trainer/V1--1")(options "")(descr ""))
+  (lib (name "Devkit V1-2")(type "KiCad")(uri "/home/fred-olav/esp32projects/Gand-RIO-Trainer/doit-esp32-devkit-kicad-master")(options "")(descr ""))
+)
