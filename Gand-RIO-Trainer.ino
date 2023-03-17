@@ -18,7 +18,9 @@
 //#endif
 #include <ModbusIP_ESP8266.h>
 #include "arduino_secrets.h"
+#include "PCF8574.h"  // https://github.com/xreef/PCF8574_library
 
+PCF8574 pcf8574(0x20);
 //Modbus Registers Offsets
 //Used Pins
 const int DI1 = 34; //GPIO0
@@ -59,8 +61,11 @@ void setup() {
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
 
-  mb.server();
-  mb.addHreg(TEST_HREG, 0x000A);
+mb.server();
+mb.addIsts(1,false,14);
+mb.addCoil(1,false,8);
+mb.addHreg(1,0,2);
+mb.addIreg(1,0,2);
       //Set ledPin mode
     pinMode(DI1, INPUT);
     pinMode(DI2, INPUT);
@@ -76,10 +81,13 @@ void setup() {
     pinMode(DI12, INPUT_PULLUP);
     pinMode(DI13, INPUT_PULLUP);
     pinMode(DI14, INPUT_PULLUP);
-    // Add SWITCH_ISTS register - Use addIsts() for digital inputs
-	mb.addIsts(1,false,14);
-	mb.addHreg(1, 0,2);
-//	mb.addCoil(1,false,8);
+
+	for(int i=0;i<8;i++) 
+		{
+		pcf8574.pinMode(i, OUTPUT);
+		}
+	pcf8574.begin();
+
 }
  
 void loop() {
@@ -102,20 +110,20 @@ void loop() {
 	mb.Ists(14, !digitalRead(DI14));
 
 
-	mb.Hreg(1, analogRead(36));
-	mb.Hreg(2, analogRead(39));
-	
-/*
-        potValue = analogRead(potPin);
-	digitalWrite(DO1, mb.Coil(1));
-	digitalWrite(DO2, mb.Coil(2));
-	digitalWrite(DO3, mb.Coil(3));
-	digitalWrite(DO4, mb.Coil(4));
-	digitalWrite(DO5, mb.Coil(5));
-	digitalWrite(DO6, mb.Coil(6));
-	digitalWrite(DO7, mb.Coil(7));
-	digitalWrite(DO8, mb.Coil(8));
-	*/
-   delay(10);
+	mb.Ireg(1, analogRead(36));
+	mb.Ireg(2, analogRead(39));
+	dacWrite(25, mb.Hreg(1));
+	dacWrite(26, mb.Hreg(2));
 
+	pcf8574.digitalWrite(0, mb.Coil(1));
+	pcf8574.digitalWrite(1, mb.Coil(2));
+	pcf8574.digitalWrite(2, mb.Coil(3));
+	pcf8574.digitalWrite(3, mb.Coil(4));
+	pcf8574.digitalWrite(4, mb.Coil(5));
+	pcf8574.digitalWrite(5, mb.Coil(6));
+	pcf8574.digitalWrite(6, mb.Coil(7));
+	pcf8574.digitalWrite(7, mb.Coil(8));
+	
+  Serial.println(mb.Ireg(1));
+   delay(10);
 }
