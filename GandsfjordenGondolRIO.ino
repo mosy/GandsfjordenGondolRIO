@@ -24,7 +24,7 @@
 //Modbus Registers Offsets
 //Used Pins
 const int DI1 = 18; //GPIO0
-const int DI2 = 22; //GPIO0
+const int DI2 = 21; //GPIO0
 const int DI3 = 33; //GPIO0
 const int DI4 = 34; //GPIO0
 const int DI5 = 35; //GPIO0
