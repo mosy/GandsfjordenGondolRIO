@@ -18,25 +18,31 @@
 //#endif
 #include <ModbusIP_ESP8266.h>
 #include "arduino_secrets.h"
-#include "PCF8574.h"  // https://github.com/xreef/PCF8574_library
+//#include "PCF8574.h"  // https://github.com/xreef/PCF8574_library
 
-PCF8574 pcf8574(0x20);
+//PCF8574 pcf8574(0x20);
 //Modbus Registers Offsets
 //Used Pins
-const int DI1 = 34; //GPIO0
-const int DI2 = 35; //GPIO0
-const int DI3 = 32; //GPIO0
-const int DI4 = 33; //GPIO0
-const int DI5 = 27; //GPIO0
-const int DI6 = 14; //GPIO0
-const int DI7 = 12; //GPIO0
-const int DI8 = 13; //GPIO0
-const int DI9 = 15; //GPIO0
-const int DI10 = 2; //GPIO0
-const int DI11 = 4; //GPIO0
-const int DI12 = 5; //GPIO0
-const int DI13 = 18; //GPIO0
-const int DI14 = 19; //GPIO0
+const int DI1 = 16; //GPIO0
+const int DI2 = 17; //GPIO0
+const int DI3 = 18; //GPIO0
+const int DI4 = 21; //GPIO0
+const int DI5 = 33; //GPIO0
+const int DI6 = 34; //GPIO0
+const int DI7 = 35; //GPIO0
+const int DI8 = 36; //GPIO0
+const int DI9 = 37; //GPIO0
+const int DI10 = 38; //GPIO0
+
+
+const int DO1 = 12; //GPIO0
+const int DO2 = 11; //GPIO0
+const int DO3 = 9; //GPIO0
+const int DO4 = 7; //GPIO0
+
+
+const int MCW = 4; //GPIO0
+const int MCCW = 5; //GPIO0
 
 // Modbus Registers Offsets
 const int TEST_HREG = 1;
@@ -62,31 +68,37 @@ void setup() {
   Serial.println(WiFi.localIP());
 
 mb.server();
-mb.addIsts(1,false,14);
-mb.addCoil(1,false,8);
+mb.addIsts(1,false,10);
+mb.addCoil(1,false,4);
 mb.addHreg(1,0,2);
 mb.addIreg(1,0,2);
-      //Set ledPin mode
-    pinMode(DI1, INPUT);
-    pinMode(DI2, INPUT);
-    pinMode(DI3, INPUT_PULLUP);
-    pinMode(DI4, INPUT_PULLUP);
-    pinMode(DI5, INPUT_PULLUP);
-    pinMode(DI6, INPUT_PULLUP);
-    pinMode(DI7, INPUT_PULLUP);
-    pinMode(DI8, INPUT_PULLUP);
-    pinMode(DI9, INPUT_PULLUP);
-    pinMode(DI10, INPUT_PULLUP);
-    pinMode(DI11, INPUT_PULLUP);
-    pinMode(DI12, INPUT_PULLUP);
-    pinMode(DI13, INPUT_PULLUP);
-    pinMode(DI14, INPUT_PULLUP);
 
-	for(int i=0;i<8;i++) 
-		{
-		pcf8574.pinMode(i, OUTPUT);
-		}
-	pcf8574.begin();
+
+
+
+//Set ledPin mode
+	pinMode(DI1, INPUT_PULLUP);
+	pinMode(DI2, INPUT_PULLUP);
+	pinMode(DI3, INPUT_PULLUP);
+	pinMode(DI4, INPUT_PULLUP);
+	pinMode(DI5, INPUT_PULLUP);
+	pinMode(DI6, INPUT_PULLUP);
+	pinMode(DI7, INPUT_PULLUP);
+	pinMode(DI8, INPUT_PULLUP);
+	pinMode(DI9, INPUT_PULLUP);
+	pinMode(DI10, INPUT_PULLUP);
+
+	pinMode(DO1, OUTPUT);
+	pinMode(DO2, OUTPUT);
+	pinMode(DO3, OUTPUT);
+	pinMode(DO4, OUTPUT);
+
+	//pinMode(MCW, OUTPUT);
+	//pinMode(MCCW, OUTPUT);
+	ledcSetup(0, 1000, 8);
+	ledcSetup(1, 1000, 8);
+	ledcAttachPin(MCW, 0);
+	ledcAttachPin(MCCW, 1);
 
 }
  
@@ -104,26 +116,18 @@ void loop() {
 	mb.Ists(8, !digitalRead(DI8));
 	mb.Ists(9, !digitalRead(DI9));
 	mb.Ists(10, !digitalRead(DI10));
-	mb.Ists(11, !digitalRead(DI11));
-	mb.Ists(12, !digitalRead(DI12));
-	mb.Ists(13, !digitalRead(DI13));
-	mb.Ists(14, !digitalRead(DI14));
 
+//	mb.Ireg(1, analogRead(36));
 
-	mb.Ireg(1, analogRead(36));
-	mb.Ireg(2, analogRead(39));
-	dacWrite(25, mb.Hreg(1));
-	dacWrite(26, mb.Hreg(2));
-
-	pcf8574.digitalWrite(0, mb.Coil(1));
-	pcf8574.digitalWrite(1, mb.Coil(2));
-	pcf8574.digitalWrite(2, mb.Coil(3));
-	pcf8574.digitalWrite(3, mb.Coil(4));
-	pcf8574.digitalWrite(4, mb.Coil(5));
-	pcf8574.digitalWrite(5, mb.Coil(6));
-	pcf8574.digitalWrite(6, mb.Coil(7));
-	pcf8574.digitalWrite(7, mb.Coil(8));
+	digitalWrite(DO1, mb.Coil(1));
+	digitalWrite(DO2, mb.Coil(2));
+	digitalWrite(DO3, mb.Coil(3));
+	digitalWrite(DO4, mb.Coil(4));
 	
-  Serial.println(mb.Ireg(1));
-   delay(10);
+	ledcWrite(0, mb.Hreg(1));
+	ledcWrite(1, mb.Hreg(2));
+	
+  Serial.println(mb.Hreg(1));
+  Serial.println(mb.Hreg(2));
+  delay(100);
 }

@@ -73,7 +73,8 @@ MAKE_DIR   := $(PWD)
 #OTA_PORT   ?= 8266
 #OTA_PASS   ?=
 # ----- setup for Arduino Uno
-FQBN        ?= esp32:esp32:esp32doit-devkit-v1
+FQBN        ?= esp32:esp32:esp32s2:CDCOnBoot=cdc
+
 # ----- ---------------------
 V          ?= 0
 VFLAG      =
