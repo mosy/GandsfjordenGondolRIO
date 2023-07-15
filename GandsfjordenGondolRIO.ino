@@ -23,26 +23,26 @@
 //PCF8574 pcf8574(0x20);
 //Modbus Registers Offsets
 //Used Pins
-const int DI1 = 16; //GPIO0
-const int DI2 = 17; //GPIO0
-const int DI3 = 18; //GPIO0
-const int DI4 = 21; //GPIO0
-const int DI5 = 33; //GPIO0
-const int DI6 = 34; //GPIO0
-const int DI7 = 35; //GPIO0
-const int DI8 = 36; //GPIO0
-const int DI9 = 37; //GPIO0
-const int DI10 = 38; //GPIO0
+const int DI1 = 18; //GPIO0
+const int DI2 = 22; //GPIO0
+const int DI3 = 33; //GPIO0
+const int DI4 = 34; //GPIO0
+const int DI5 = 35; //GPIO0
+const int DI6 = 36; //GPIO0
+const int DI7 = 37; //GPIO0
+const int DI8 = 38; //GPIO0
+const int DI9 = 39; //GPIO0
+const int DI10 = 40; //GPIO0
 
 
-const int DO1 = 12; //GPIO0
-const int DO2 = 11; //GPIO0
+const int DO1 = 11; //GPIO0
+const int DO2 = 10; //GPIO0
 const int DO3 = 9; //GPIO0
-const int DO4 = 7; //GPIO0
+const int DO4 = 8; //GPIO0
 
 
-const int MCW = 4; //GPIO0
-const int MCCW = 5; //GPIO0
+const int MCW = 2; //GPIO0
+const int MCCW = 3; //GPIO0
 
 // Modbus Registers Offsets
 const int TEST_HREG = 1;
@@ -64,6 +64,7 @@ void setup() {
  
   Serial.println("");
   Serial.println("WiFi connected");  
+    delay(5000);
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
 
@@ -127,7 +128,7 @@ void loop() {
 	ledcWrite(0, mb.Hreg(1));
 	ledcWrite(1, mb.Hreg(2));
 	
-  Serial.println(mb.Hreg(1));
-  Serial.println(mb.Hreg(2));
+//  Serial.println(mb.Hreg(1));
+//  Serial.println(mb.Hreg(2));
   delay(100);
 }
