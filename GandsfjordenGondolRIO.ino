@@ -34,6 +34,9 @@ const int DI8 = 38; //GPIO0
 const int DI9 = 39; //GPIO0
 const int DI10 = 40; //GPIO0
 
+const int AI1 = 17; //GPIO0
+const int AI2 = 16; //GPIO0
+
 
 const int DO1 = 11; //GPIO0
 const int DO2 = 10; //GPIO0
@@ -47,13 +50,19 @@ const int MCCW = 3; //GPIO0
 // Modbus Registers Offsets
 const int TEST_HREG = 1;
 
-
+IPAddress staticIP(192, 168, 0, 200);
+IPAddress gateway(192, 168, 0, 1);
+IPAddress subnet(255, 255, 255, 0);
+IPAddress dns(192,168,0,1);   //optional
+//IPAddress secondaryDNS(8, 8, 4, 4); //optional
 //ModbusIP object
 ModbusIP mb;
   
 void setup() {
   Serial.begin(115200);
  
+ if (WiFi.config(staticIP, gateway, subnet, dns, dns) == false)
+    Serial.println("Configuration failed.");
   //WiFi.begin("your_ssid", "your_password");
   WiFi.begin(SECRET_SSID, SECRET_PASS);
   
@@ -64,7 +73,6 @@ void setup() {
  
   Serial.println("");
   Serial.println("WiFi connected");  
-    delay(5000);
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
 
@@ -88,11 +96,15 @@ mb.addIreg(1,0,2);
 	pinMode(DI8, INPUT_PULLUP);
 	pinMode(DI9, INPUT_PULLUP);
 	pinMode(DI10, INPUT_PULLUP);
+	
+	pinMode(AI1, INPUT);
+	pinMode(AI2, INPUT);
 
 	pinMode(DO1, OUTPUT);
 	pinMode(DO2, OUTPUT);
 	pinMode(DO3, OUTPUT);
 	pinMode(DO4, OUTPUT);
+	pinMode(15, OUTPUT);
 
 	//pinMode(MCW, OUTPUT);
 	//pinMode(MCCW, OUTPUT);
@@ -118,7 +130,8 @@ void loop() {
 	mb.Ists(9, !digitalRead(DI9));
 	mb.Ists(10, !digitalRead(DI10));
 
-//	mb.Ireg(1, analogRead(36));
+	mb.Ireg(1, analogRead(AI1));
+	mb.Ireg(2, analogRead(AI2));
 
 	digitalWrite(DO1, mb.Coil(1));
 	digitalWrite(DO2, mb.Coil(2));
@@ -127,8 +140,11 @@ void loop() {
 	
 	ledcWrite(0, mb.Hreg(1));
 	ledcWrite(1, mb.Hreg(2));
+	if (WiFi.status() == WL_CONNECTED)
+		digitalWrite(15, true);
+		else 
+		digitalWrite(15, false);
 	
 //  Serial.println(mb.Hreg(1));
 //  Serial.println(mb.Hreg(2));
-  delay(100);
 }
