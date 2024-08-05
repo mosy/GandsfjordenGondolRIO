@@ -50,7 +50,7 @@ const int MCCW = 3; //GPIO0
 // Modbus Registers Offsets
 const int TEST_HREG = 1;
 
-IPAddress staticIP(192, 168, 0, 250);
+IPAddress staticIP(192, 168, 0, 207);
 IPAddress gateway(192, 168, 0, 1);
 IPAddress subnet(255, 255, 255, 0);
 IPAddress dns(192,168,0,1);   //optional
