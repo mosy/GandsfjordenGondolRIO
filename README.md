@@ -1,4 +1,14 @@
 # Gand-RIO-Trainer
+## 07.08.24 V2 prototype ankommet
+![alt text](https://github.com/mosy/GandsfjordenGondolRIO/blob/master/Bilder/V2%20første%20sending.jpg "Logo Title Text 1")
+Feil etter IO-sjekk:
+1 pinne 39/40 er ikke analog inngang, fikses ved av vi bare trenger 1 AI og en PT1000 inngang PT1000 Kobles mot AI2
+2 Mangler elektrolytt kondensator, fungerer fint uten
+3 hol til skruer er 3.0. settes til 3.1 i neste versjon. 
+
+
+
+
 ## 06.09.23
 
 ![alt text](https://github.com/mosy/GandsfjordenGondolRIO/blob/master/Bilder/RIO.jpg "Logo Title Text 1")
