@@ -1,4 +1,6 @@
-# Gand-RIO-Trainer
+# Gandsfjorden Gondol RIO
+## 17.08.24 Skjema for RIO
+![alt text](https://github.com/mosy/GandsfjordenGondolRIO/blob/master/Bilder/Schematic_Gandsfjorden-Gondol-RIO_2024-08-17.svg "Logo Title Text 1")
 ## 07.08.24 V2 prototype ankommet
 ![alt text](https://github.com/mosy/GandsfjordenGondolRIO/blob/master/Bilder/V2%20første%20sending.jpg "Logo Title Text 1")
 Feil etter IO-sjekk:
