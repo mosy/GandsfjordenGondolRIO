@@ -50,7 +50,7 @@ const int MCCW = 3; //GPIO0
 // Modbus Registers Offsets
 const int TEST_HREG = 1;
 
-IPAddress staticIP(192, 168, 0, 207);
+IPAddress staticIP(192, 168, 0, 201);
 IPAddress gateway(192, 168, 0, 1);
 IPAddress subnet(255, 255, 255, 0);
 IPAddress dns(192,168,0,1);   //optional
@@ -108,10 +108,10 @@ mb.addIreg(1,0,2);
 
 	//pinMode(MCW, OUTPUT);
 	//pinMode(MCCW, OUTPUT);
-	ledcSetup(0, 1000, 8);
-	ledcSetup(1, 1000, 8);
-	ledcAttachPin(MCW, 0);
-	ledcAttachPin(MCCW, 1);
+	//ledcSetup(0, 1000, 8);
+	//ledcSetup(1, 1000, 8);
+	ledcAttach(MCW, 1000, 8);
+	ledcAttach(MCCW, 1000, 8);
 
 }
  
